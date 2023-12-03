@@ -1,0 +1,8 @@
+// bad entried for test of the filter
+V01:4860:4860::8888 // goog
+V.8.8.8  // goog ipv4
+
+// valid entries for test
+2001:4860:4860::8888 // goog
+8.8.8.8  // goog ipv4
+
