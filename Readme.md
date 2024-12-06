@@ -1,9 +1,9 @@
 # DataNameSorcery
 
->... reverse DNS scanner.
--Output as default console, json and xml. 
+> ... reverse DNS scanner.
+- Output as default console, json and xml. 
 
--Domain names, ipv4 and ipv6 as input.
+- Domain names, ipv4 and ipv6 as input.
 
 
 > Still here? Continue if youre mindlessly brave or the like but no warranty given ...
@@ -16,8 +16,12 @@ Test OS ubuntu 24.04
 `./clean_cmake.sh`
 
 ## DEPS
-- poco
-- xerxes-sc
+```
+all dev deb on ubuntu
+- https://github.com/pocoproject/poco
+- https://github.com/apache/xerces-c
+- https://github.com/nlohmann/json
+```
 
 ## USAGE
 ```
@@ -29,7 +33,7 @@ $ bin/DataNameSorcery -hst <host_domain_file> -dns <dns_file> {-def | -json | -x
 
 -def == use default output
 
--json == use JSON output
+-json == use JSON output 
 
 -xml == use XML output**
 ```
@@ -50,7 +54,7 @@ Invalid input: 208.67.2...222 -> Unable to resolve
 ```
 
 
-### Json output with https://github.com/nlohmann/json
+### Json
 ```
 $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -json
 {"ip":"2001:4860:4860::8888","result":"dns.google"}
@@ -64,7 +68,7 @@ $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -json
 ```
 
 
-### XML output with lib https://github.com/apache/xerces-c
+### XML
 ```
 $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -xml
 <?xml version="1.0" encoding="UTF-8"?>
