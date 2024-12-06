@@ -35,7 +35,6 @@ $ bin/DataNameSorcery -hst <host_domain_file> -dns <dns_file> {-def | -json | -x
 ```
 
 
-## Tests with valid and invalid input
 
 ### Default output
 ```
