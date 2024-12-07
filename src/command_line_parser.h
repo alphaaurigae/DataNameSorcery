@@ -19,6 +19,13 @@ extern const std::string_view DEF_FLAG;
 extern const std::string_view JSON_FLAG;
 extern const std::string_view XML_FLAG;
 
-void parseCommandLineArguments(int argc, char *argv[], std::string &hostDomainFile, std::string &dnsFile, bool &useJson, bool &useXml);
+void parseCommandLineArguments(
+int argc,
+char *argv[],
+std::string &hostDomainFile,
+std::string &dnsFile,
+bool &useJson,
+bool &useXml
+);
 
 #endif

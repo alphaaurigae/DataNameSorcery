@@ -1,4 +1,14 @@
 #!/bin/bash
 
+BIN_DIR='bin'
+BIN_NAME='DataNameSorcery'
+INPUT_DIR='input_sample'
+HOSTS_FILE='hosts' # Hosts to scan (Scan targets)
+DNS_FILE='dns' # DNS servers for testing (Not the scan targets)
 
-bin/datanamesorcery -hst input_sample/hosts -dns input_sample/dns -def
+echo ""
+${BIN_DIR}/${BIN_NAME}
+echo ""
+echo ""
+${BIN_DIR}/${BIN_NAME} -hst ${INPUT_DIR}/${HOSTS_FILE} -dns ${INPUT_DIR}/${DNS_FILE} -def
+echo ""

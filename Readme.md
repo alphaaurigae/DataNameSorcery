@@ -1,29 +1,32 @@
 # DataNameSorcery
 
 > ... reverse DNS scanner.
+
 - Output as default console, json and xml. 
-
 - Domain names, ipv4 and ipv6 as input.
-
 
 > Still here? Continue if youre mindlessly brave or the like but no warranty given ...
 
 
-## BUILD
-Test OS ubuntu 24.04
+## Build
+
+- Build OS: "Ubuntu 24.04"
+
 ... cmake ...
-`./build_cmake.sh`
-`./clean_cmake.sh`
+`./build_cmake.sh` - build
+`./clean_cmake.sh` - tidy build
 
-## DEPS
+
+## Deps
 ```
-all dev deb on ubuntu
-- https://github.com/pocoproject/poco
-- https://github.com/apache/xerces-c
-- https://github.com/nlohmann/json
+libpoko-dev - https://github.com/pocoproject/poco
+libxerces-c-dev - https://github.com/apache/xerces-c
+nlohmann-json3-dev - https://github.com/nlohmann/json
+libuv1-dev - https://github.com/libuv/libuv
+
 ```
 
-## USAGE
+## Run
 ```
 $ bin/DataNameSorcery -hst <host_domain_file> -dns <dns_file> {-def | -json | -xml}
 
@@ -37,7 +40,6 @@ $ bin/DataNameSorcery -hst <host_domain_file> -dns <dns_file> {-def | -json | -x
 
 -xml == use XML output**
 ```
-
 
 
 ### Default output
@@ -76,4 +78,6 @@ $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -xml
 </ReverseDnsResults>
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>8.8.8.8</IP><ResultText>dns.google</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>1.1.1.1</IP><ResultText>one.one.one.one</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>208.67.222.222</IP><ResultText>dns.opendns.com</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>2001:4860:4860::8888</IP><ResultText>dns.google</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 200V:4860:4860::8888</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 8.&amp;.8.8</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 1.1.i.1</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 208.67.2...222</IP><ResultText>Unable to resolve</ResultText></Result></ReverseDnsResults>
 ```
+
+
 

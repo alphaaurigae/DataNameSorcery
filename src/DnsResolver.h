@@ -6,10 +6,10 @@
 #include <vector>
 #include <uv.h>
 
-// Declare outputResult function
+
 void outputResult(const std::string &ip, const std::string &result, bool useJson, bool useXml);
 
-// Declare the DnsRequest class
+
 class DnsRequest
 {
 public:
@@ -19,12 +19,12 @@ public:
     DnsRequest(const std::string &ip, const std::string &dns_server);
 };
 
-// Declare the DnsResolver class
+
 class DnsResolver
 {
 private:
-    static bool useJson; // Declare
-    static bool useXml;  // Declare
+    static bool useJson;
+    static bool useXml;
 
 public:
     static void setUseJson(bool value);

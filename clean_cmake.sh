@@ -1,7 +1,7 @@
 #!/bin/bash
 
-BUILD_DIR=build
-BIN_DIR=bin
+BUILD_DIR='build'
+BIN_DIR='bin'
 
 clean() {
     echo "Cleaning build and bin directories..."

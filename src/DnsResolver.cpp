@@ -1,9 +1,11 @@
 #include "DnsResolver.h"
+
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <sstream>
+
 #include <uv.h>
 
 bool DnsResolver::useJson = false;

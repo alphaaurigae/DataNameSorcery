@@ -6,17 +6,17 @@
 class UVLoop
 {
 public:
-    UVLoop(); // constructor
-    UVLoop(const UVLoop &) = delete; // disable copy constructor
-    UVLoop &operator=(const UVLoop &) = delete; // disable copy assignment
-    UVLoop(UVLoop &&other) noexcept; // move constructor
-    UVLoop &operator=(UVLoop &&other) noexcept; // move assignment operator
-    ~UVLoop() noexcept; // destructor
+    UVLoop();
+    UVLoop(const UVLoop &) = delete;
+    UVLoop &operator=(const UVLoop &) = delete;
+    UVLoop(UVLoop &&other) noexcept;
+    UVLoop &operator=(UVLoop &&other) noexcept;
+    ~UVLoop() noexcept;
 
-    uv_loop_t *get() const; // getter for the loop
+    uv_loop_t *get() const;
 
 private:
-    uv_loop_t *loop; // pointer to the uv_loop_t object
+    uv_loop_t *loop;
 };
 
 #endif
