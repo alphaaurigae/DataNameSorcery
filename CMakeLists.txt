@@ -2,16 +2,14 @@
 cmake_minimum_required(VERSION 3.28.3)
 
 set(MY_PROJECT_NAME "DataNameSorcery")
-set(MY_PROJECT_BIN_NAME "DataNameSorcery")
+set(MY_PROJECT_BIN_NAME "datanamesorcery")
 set(MY_PROJECT_VERSION "888.0")
 
 project(${MY_PROJECT_BIN_NAME} VERSION ${MY_PROJECT_VERSION} LANGUAGES CXX)
 
-
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# > 11
 find_program(CXX_COMPILER NAMES g++-11 g++-12 g++-13 g++-14 PATHS /usr/bin /usr/local/bin)
 
 if(NOT CXX_COMPILER)
@@ -32,7 +30,6 @@ if(GCC_VERSION VERSION_LESS "11.0.0")
 endif()
 
 set(CMAKE_CXX_COMPILER ${CXX_COMPILER})
-
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type (Debug, Release, RelWithDebInfo, MinSizeRel)" FORCE)
@@ -60,12 +57,13 @@ if(ENABLE_DEPENDENCY_GENERATION)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -MMD -MP")
 endif()
 
+
 option(ENABLE_SANITIZERS "Enable sanitizer compile flags for runtime debugging" ON)
 if(ENABLE_SANITIZERS)
     set(SANITIZER_FLAGS "-fsanitize=undefined,shift,integer-divide-by-zero,bounds,float-divide-by-zero -fsanitize=shift -fsanitize=shift-exponent -fsanitize=shift-base -fsanitize=integer-divide-by-zero -fsanitize=vla-bound \
   -fsanitize=null -fsanitize=return -fsanitize=signed-integer-overflow -fsanitize=bounds -fsanitize=bounds-strict -fsanitize=alignment -fsanitize=object-size \
   -fsanitize=float-divide-by-zero -fsanitize=float-cast-overflow -fsanitize=nonnull-attribute -fsanitize=returns-nonnull-attribute -fsanitize=bool -fsanitize=enum \
-  -fsanitize=vptr -fsanitize=pointer-overflow -fsanitize=builtin ")#-fsanitize=thread ") # -fsanitize=leak #   # -fsanitize=pointer-compare  -fsanitize=address
+  -fsanitize=vptr -fsanitize=pointer-overflow -fsanitize=builtin ") # -fsanitize=thread  -fsanitize=leak -fsanitize=pointer-compare  -fsanitize=address
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SANITIZER_FLAGS}")
 endif()
 
@@ -75,28 +73,18 @@ if(ENABLE_COMPILE_COMMANDS)
     set(CMAKE_EXPORT_COMPILE_COMMANDS YES CACHE BOOL "Export compile commands" FORCE)
 endif()
 
+
 option(ENABLE_VERBOSE_MAKEFILES "Enable verbose makefiles" ON)
 if(ENABLE_VERBOSE_MAKEFILES)
     set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "Enable verbose makefile output" FORCE)
 endif()
+
 
 option(ENABLE_WARNINGS_AS_ERRORS "Treat warnings as errors" OFF)
 if(ENABLE_WARNINGS_AS_ERRORS)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
 endif()
 
-
-# Clang-tidy (easily complains, leave off unless needed)
-option(ENABLE_CLANG_TIDY "Run clang-tidy during compilation" OFF)
-if(ENABLE_CLANG_TIDY)
-    find_program(CLANG_TIDY_EXE NAMES clang-tidy)
-    if(CLANG_TIDY_EXE)
-       # set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
-       # set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE};--checks=-*,modernize-*,-clang-analyzer-cplusplus.NewDeleteLeaks")
-    else()
-        message(WARNING "clang-tidy requested but not found!")
-    endif()
-endif()
 
 option(ENABLE_LOGGING "Enable detailed logging" ON)
 if(ENABLE_LOGGING)
@@ -138,7 +126,6 @@ target_link_libraries(${MY_PROJECT_BIN_NAME} ${LIBS})
 file(MAKE_DIRECTORY ${BUILD_DIR})
 file(MAKE_DIRECTORY ${BIN_DIR})
 
-
 add_custom_target(my_clean
     COMMAND rm -rf ${BUILD_DIR} ${BIN_DIR}
     COMMENT "Clean build and bin directories"
@@ -154,7 +141,6 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
 elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
 endif()
-
 message(STATUS "CMake generator: ${CMAKE_GENERATOR}")
 message(STATUS "Compiler: ${CXX_COMPILER}")
 message(STATUS "Compiler Flags: ${CMAKE_CXX_FLAGS}")
@@ -164,5 +150,17 @@ message(STATUS "Warnings as Errors: ${ENABLE_WARNINGS_AS_ERRORS}")
 message(STATUS "Verbose Makefiles: ${ENABLE_VERBOSE_MAKEFILES}")
 message(STATUS "Compile Commands Export: ${ENABLE_COMPILE_COMMANDS}")
 message(STATUS "------------------------------------------------------------")
+set(ASCII_ART "                                                                  
+                                                                      
+.--.       .       .   .                  .-.                         
+|   :     _|_      |\  |                 (   )                        
+|   | .-.  |  .-.  | \ | .-.  .--.--. .-. `-.  .-. .--..-..-. .--..  .
+|   ;(   ) | (   ) |  \|(   ) |  |  |(.-'(   )(   )|  (  (.-' |   |  |
+'--'  `-'`-`-'`-'`-'   ' `-'`-'  '  `-`--'`-'  `-' '   `-'`--''   `--|
+                                                                     ;
+                                                                  `-' 
+VERSION ${MY_PROJECT_VERSION}
+")
+message(STATUS "${ASCII_ART}")
 
 
