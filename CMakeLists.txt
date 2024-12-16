@@ -105,7 +105,6 @@ endif()
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 set(BUILD_DIR ${CMAKE_BINARY_DIR}/build)
 set(BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
-set(DATABASE_DIR ${SRC_DIR}/database)
 
 
 include_directories(
