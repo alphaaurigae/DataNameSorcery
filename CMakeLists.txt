@@ -119,10 +119,7 @@ file(GLOB_RECURSE SRCS ${SRC_DIR}/*.cpp)  # depth 1
 # file(GLOB_RECURSE SRCS ${SRC_DIR}/**/*.cpp)  # depth 1+
 
 
-add_executable(${MY_PROJECT_BIN_NAME} ${SRCS})
-
-
-set(LIBS
+set(LIBS_MAIN
 uv
 xerces-c
 PocoData
@@ -134,7 +131,10 @@ PocoFoundation
 )
 
 
-target_link_libraries(${MY_PROJECT_BIN_NAME} ${LIBS})
+add_executable(${MY_PROJECT_BIN_NAME} ${SRCS})
+
+
+target_link_libraries(${MY_PROJECT_BIN_NAME} ${LIBS_MAIN})
 
 
 set_target_properties(${MY_PROJECT_BIN_NAME} PROPERTIES
