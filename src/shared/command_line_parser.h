@@ -1,4 +1,18 @@
-#include "command_line_parser.h"
+#ifndef COMMAND_LINE_PARSER_H
+#define COMMAND_LINE_PARSER_H
+
+#include <stdexcept>
+#include <string>
+#include <string_view>
+
+
+enum class FlagType {
+    HOST_DOMAIN,
+    DNS,
+    DEF,
+    JSON,
+    XML
+};
 
 const std::string_view HOST_DOMAIN_FLAG = "-hst";
 const std::string_view DNS_FLAG = "-dns";
@@ -47,3 +61,9 @@ void parseCommandLineArguments(int argc, char *argv[], std::string &hostDomainFi
     useJson = (outputFlag == FlagType::JSON);
     useXml = (outputFlag == FlagType::XML);
 }
+
+
+#endif
+
+
+

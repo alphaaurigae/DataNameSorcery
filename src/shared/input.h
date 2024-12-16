@@ -1,14 +1,28 @@
-#include "input.h"
+#ifndef INPUT_H
+#define INPUT_H
+
 #include <stdexcept>
+#include <fstream>
+#include <memory>
 #include <filesystem>
-#include <algorithm>
 #include <Poco/Exception.h>
 #include <Poco/Net/IPAddress.h>
 #include <Poco/Net/SocketAddress.h>
 
 namespace fs = std::filesystem;
 
-FileReader::FileReader(const std::string &filename)
+class FileReader {
+public:
+    explicit FileReader(const std::string& filename);
+    std::string readFileLines() const;
+
+private:
+    void processLine(std::string line, std::string& lines) const;
+
+    std::unique_ptr<std::ifstream> file;
+};
+
+inline FileReader::FileReader(const std::string &filename)
 {
     if (!fs::exists(filename))
     {
@@ -27,7 +41,7 @@ FileReader::FileReader(const std::string &filename)
     }
 }
 
-std::string FileReader::readFileLines() const
+inline std::string FileReader::readFileLines() const
 {
     std::string lines;
     std::string line;
@@ -40,7 +54,7 @@ std::string FileReader::readFileLines() const
     return lines;
 }
 
-void FileReader::processLine(std::string line, std::string &lines) const
+inline void FileReader::processLine(std::string line, std::string &lines) const
 {
     auto pos = line.find("//");
     if (pos != std::string::npos)
@@ -72,3 +86,5 @@ void FileReader::processLine(std::string line, std::string &lines) const
         }
     }
 }
+
+#endif
