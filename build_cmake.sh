@@ -16,3 +16,7 @@ build() {
 
 configure
 build
+echo "defaul output test"
+./test.sh
+echo "unittest shunit2"
+./shunit2.sh

@@ -12,3 +12,7 @@ echo ""
 echo ""
 ${BIN_DIR}/${BIN_NAME} -hst ${INPUT_DIR}/${HOSTS_FILE} -dns ${INPUT_DIR}/${DNS_FILE} -def
 echo ""
+${BIN_DIR}/${BIN_NAME} -hst ${INPUT_DIR}/${HOSTS_FILE} -dns ${INPUT_DIR}/${DNS_FILE} -json
+echo ""
+${BIN_DIR}/${BIN_NAME} -hst ${INPUT_DIR}/${HOSTS_FILE} -dns ${INPUT_DIR}/${DNS_FILE} -xml
+echo ""
