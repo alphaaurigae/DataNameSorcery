@@ -10,6 +10,25 @@
 #include <cstring>
 #include <cstdlib>
 
+#ifdef DEBUG
+#define DEBUG_OUTPUT_JSON_XML
+#endif
+
+// prevent unused parameter warnings
+inline void useJsonXml(bool useJson, bool useXml) {
+    (void)useJson;
+    (void)useXml;
+
+    #ifdef DEBUG_OUTPUT_JSON_XML
+    if (useJson) {
+        std::cout << "[DEBUG] JSON format is enabled." << std::endl;
+    }
+    if (useXml) {
+        std::cout << "[DEBUG] XML format is enabled." << std::endl;
+    }
+    #endif
+}
+
 class DnsRequest {
 public:
     DnsRequest(const std::string &ip, const std::string &dns_server)
@@ -21,23 +40,25 @@ public:
 
 class DnsResolver {
 public:
-    static bool useJson;
-    static bool useXml;
+    static inline bool useJson = false;
+    static inline bool useXml = false;
 
-    static void setUseJson(bool value) { useJson = value; }
-    static void setUseXml(bool value) { useXml = value; }
-    static bool getUseJson() { return useJson; }
-    static bool getUseXml() { return useXml; }
+    static inline void setUseJson(bool value) { useJson = value; }
+    static inline void setUseXml(bool value) { useXml = value; }
+    static inline bool getUseJson() { return useJson; }
+    static inline bool getUseXml() { return useXml; }
 
     static void onDnsResolvedWrapper(uv_getaddrinfo_t *req, int status, struct addrinfo *res) {
         std::ostream &output = std::cout;
-        onDnsResolved(req, status, res, output);  
+        onDnsResolved(req, status, res, output);
         uv_freeaddrinfo(res);
     }
 
     static void onDnsResolved(uv_getaddrinfo_t *req, int status, struct addrinfo *res, std::ostream &output) {
         auto dnsRequest = std::unique_ptr<DnsRequest>(reinterpret_cast<DnsRequest *>(req->data));
 
+        useJsonXml(useJson, useXml);
+        output << "";
         if (res != nullptr && status == 0) {
             std::vector<char> dynamicBuffer(NI_MAXHOST);
 
@@ -63,6 +84,8 @@ public:
         uv_loop_t *const loop,
         bool useJson,
         bool useXml) {
+
+        useJsonXml(useJson, useXml);
 
         auto request = std::make_unique<uv_getaddrinfo_t>();
         auto dnsRequest = std::make_unique<DnsRequest>(ip, dns_server);
@@ -106,19 +129,15 @@ public:
     }
 
 private:
-static void outputResult(const std::string &ip, const std::string &result, bool useJson, bool useXml) {
-    if (useJson) {
-        std::cout << "{\"ip\":\"" << ip << "\",\"result\":\"" << result << "\"}" << std::endl;
-    } else if (useXml) {
-        std::cout << "<dns><ip>" << ip << "</ip><result>" << result << "</result></dns>" << std::endl;
-    } else {
-        std::cout << ip << " -> " << result << std::endl;
+    static inline void outputResult(const std::string &ip, const std::string &result, bool useJson, bool useXml) {
+        if (useJson) {
+            std::cout << "{\"ip\":\"" << ip << "\",\"result\":\"" << result << "\"}" << std::endl;
+        } else if (useXml) {
+            std::cout << "<dns><ip>" << ip << "</ip><result>" << result << "</result></dns>" << std::endl;
+        } else {
+            std::cout << ip << " -> " << result << std::endl;
+        }
     }
-}
 };
-
-// Static member variables definition
-bool DnsResolver::useJson = false;
-bool DnsResolver::useXml = false;
 
 #endif

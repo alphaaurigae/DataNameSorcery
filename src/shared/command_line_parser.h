@@ -5,7 +5,6 @@
 #include <string>
 #include <string_view>
 
-
 enum class FlagType {
     HOST_DOMAIN,
     DNS,
@@ -20,11 +19,12 @@ const std::string_view DEF_FLAG = "-def";
 const std::string_view JSON_FLAG = "-json";
 const std::string_view XML_FLAG = "-xml";
 
-void parseCommandLineArguments(int argc, char *argv[], std::string &hostDomainFile, std::string &dnsFile, bool &useJson, bool &useXml)
+inline void parseCommandLineArguments(int argc, char *argv[], std::string &hostDomainFile, std::string &dnsFile, bool &useJson, bool &useXml)
 {
-    if (argc != 6 || (argv[1] != HOST_DOMAIN_FLAG && argv[1] != DNS_FLAG) ||
-        (argv[3] != HOST_DOMAIN_FLAG && argv[3] != DNS_FLAG) ||
-        (argv[5] != DEF_FLAG && argv[5] != JSON_FLAG && argv[5] != XML_FLAG))
+    if (argc != 6 || 
+        (std::string_view(argv[1]) != HOST_DOMAIN_FLAG && std::string_view(argv[1]) != DNS_FLAG) ||
+        (std::string_view(argv[3]) != HOST_DOMAIN_FLAG && std::string_view(argv[3]) != DNS_FLAG) ||
+        (std::string_view(argv[5]) != DEF_FLAG && std::string_view(argv[5]) != JSON_FLAG && std::string_view(argv[5]) != XML_FLAG))
     {
         throw std::runtime_error(
             "Usage: " +
@@ -51,9 +51,9 @@ void parseCommandLineArguments(int argc, char *argv[], std::string &hostDomainFi
             " == use XML output");
     }
 
-    FlagType hostDomainFlag = (argv[1] == HOST_DOMAIN_FLAG) ? FlagType::HOST_DOMAIN : FlagType::DNS;
-    FlagType dnsFlag = (argv[3] == DNS_FLAG) ? FlagType::DNS : FlagType::HOST_DOMAIN;
-    FlagType outputFlag = (argv[5] == DEF_FLAG) ? FlagType::DEF : ((argv[5] == JSON_FLAG) ? FlagType::JSON : FlagType::XML);
+    FlagType hostDomainFlag = (std::string_view(argv[1]) == HOST_DOMAIN_FLAG) ? FlagType::HOST_DOMAIN : FlagType::DNS;
+    FlagType dnsFlag = (std::string_view(argv[3]) == DNS_FLAG) ? FlagType::DNS : FlagType::HOST_DOMAIN;
+    FlagType outputFlag = (std::string_view(argv[5]) == DEF_FLAG) ? FlagType::DEF : ((std::string_view(argv[5]) == JSON_FLAG) ? FlagType::JSON : FlagType::XML);
 
     hostDomainFile = argv[(hostDomainFlag == FlagType::HOST_DOMAIN) ? 2 : 4];
     dnsFile = argv[(dnsFlag == FlagType::DNS) ? 4 : 2];
@@ -62,8 +62,4 @@ void parseCommandLineArguments(int argc, char *argv[], std::string &hostDomainFi
     useXml = (outputFlag == FlagType::XML);
 }
 
-
 #endif
-
-
-

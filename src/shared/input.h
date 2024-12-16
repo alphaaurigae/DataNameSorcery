@@ -1,13 +1,15 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <Poco/Exception.h>
+#include <Poco/Net/IPAddress.h>
+#include <Poco/Net/SocketAddress.h>
+
 #include <stdexcept>
 #include <fstream>
 #include <memory>
 #include <filesystem>
-#include <Poco/Exception.h>
-#include <Poco/Net/IPAddress.h>
-#include <Poco/Net/SocketAddress.h>
+
 
 namespace fs = std::filesystem;
 

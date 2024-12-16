@@ -9,7 +9,6 @@
 #include <xercesc/framework/StdOutFormatTarget.hpp>
 
 
-
 using namespace xercesc;
 
 class XMLStringRAII {
@@ -25,9 +24,10 @@ private:
 class XercesResourceRAII {
 public:
     explicit XercesResourceRAII(DOMImplementation* impl) 
-        : impl(impl), doc(nullptr), rootElem(nullptr), serializer(nullptr), output(nullptr), formatTarget(nullptr) {}
+        : doc(nullptr), rootElem(nullptr), serializer(nullptr), 
+          output(nullptr), formatTarget(nullptr), impl(impl) {}  // Corrected order
 
-    void init() {
+    inline void init() {
         doc = impl->createDocument();
         rootElem = doc->createElement(XMLString::transcode("Result"));
         doc->appendChild(rootElem);

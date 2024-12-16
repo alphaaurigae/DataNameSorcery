@@ -1,8 +1,8 @@
 #ifndef XERCES_MANAGER_H
 #define XERCES_MANAGER_H
 
-#include <xercesc/util/XMLString.hpp>
 #include <iostream>
+#include <xercesc/util/XMLString.hpp>
 
 class XercesManager {
 public:
@@ -22,9 +22,13 @@ private:
     private:
         char* data;
     };
+
+    // Ensure member variables are declared and initialized in the correct order
+    xercesc_3_2::DOMImplementation* impl;  // First declared, so initialize first
+    xercesc_3_2::DOMDocument* doc;        // Second declared, so initialize second
 };
 
-inline XercesManager::XercesManager() {
+inline XercesManager::XercesManager() : impl(nullptr), doc(nullptr) {
     initializeXerces();
 }
 

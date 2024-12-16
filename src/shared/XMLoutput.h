@@ -1,6 +1,7 @@
 #ifndef XMLOUTPUT_H
 #define XMLOUTPUT_H
 
+#include "XercesResourceManagement.h"
 
 #include <iostream>
 
@@ -8,19 +9,18 @@
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/framework/StdOutFormatTarget.hpp>
 
-#include "XercesResourceManagement.h"  // Including the previously created header file for Xerces management
 
 
-void printXmlHeader() {
+inline void printXmlHeader() {
     std::cout << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     std::cout << "<ReverseDnsResults>\n";
 }
 
-void printXmlFooter() {
+inline void printXmlFooter() {
     std::cout << "</ReverseDnsResults>\n";
 }
 
-void outputXmlToConsole(const std::string& ip, const std::string& result) {
+inline void outputXmlToConsole(const std::string& ip, const std::string& result) {
     try {
         XMLStringRAII ipElement("IP");
         XMLStringRAII resultElement("ResultText");
