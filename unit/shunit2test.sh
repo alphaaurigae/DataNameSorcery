@@ -1,11 +1,39 @@
 #!/bin/bash
 
-# Set up environment variables for testing
+
 BIN_DIR="bin"
 BIN_NAME="datanamesorcery"
 INPUT_DIR="input_sample"
 HOSTS_FILE="hosts"
 DNS_FILE="dns"
+
+BOLD='\033[1m'
+BRIGHT_WHITE='\033[1;37m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+RESET='\033[0m'
+
+local test_name="$1"
+local expected="$2"
+local output="$3"
+
+debug_assert_equals() {
+  if [ "$output" != "$expected" ]; then
+    echo "${RED}TEST FAILED: $test_name${RESET}"
+    echo "DEBUG: Expected:"
+    echo "$expected"
+    echo "DEBUG: Got:"
+    echo "$output"
+    assertEquals "Test '$test_name' failed." "$expected" "$output"
+  else
+    echo "${GREEN}TEST PASSED: $test_name${RESET}"
+    echo "DEBUG: Expected:"
+    echo "$expected"
+    echo "DEBUG: Got:"
+    echo "$output"
+    assertEquals "Test '$test_name' passed." "$expected" "$output"
+  fi
+}
 
 
 # Test the exact output for the -hst format
@@ -15,7 +43,7 @@ test_hst_output() {
     echo "$output"
 
     # Temporarily hardcode the expected output for testing
-    expected_output="1.1.1.1 -> one.one.one.one
+    expected="1.1.1.1 -> one.one.one.one
 2001:4860:4860::8888 -> dns.google
 8.8.8.8 -> dns.google
 Invalid input: 1.1.i.1 -> Unable to resolve
@@ -26,7 +54,7 @@ Invalid input: 8.&.8.8 -> Unable to resolve"
     echo "Expected Output:"
     echo "$expected_output"
 
-    assertEquals "Default Output Test Failed" "$expected_output" "$output"
+  debug_assert_equals "Default Output Test Failed" "$expected" "$output"
 }
 
 test_json_output() {
@@ -35,7 +63,7 @@ test_json_output() {
     echo "$output"
 
     # Temporarily hardcode the expected output for testing
-    expected_output='{"ip":"1.1.1.1","result":"one.one.one.one"}
+    expected='{"ip":"1.1.1.1","result":"one.one.one.one"}
 {"ip":"2001:4860:4860::8888","result":"dns.google"}
 {"ip":"8.8.8.8","result":"dns.google"}
 {"ip":"Invalid input: 1.1.i.1","result":"Unable to resolve"}
@@ -47,7 +75,7 @@ test_json_output() {
     echo "Expected Output:"
     echo "$expected_output"
 
-    assertEquals "JSON Output Test Failed" "$expected_output" "$output"
+  debug_assert_equals "JSON Output Test Failed" "$expected" "$output"
 }
 
 #test_xml_output() {
