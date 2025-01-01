@@ -24,8 +24,6 @@
 libpoko-dev - https://github.com/pocoproject/poco
 libxerces-c-dev - https://github.com/apache/xerces-c
 nlohmann-json3-dev - https://github.com/nlohmann/json
-
-
 ```
 
 ## Run
@@ -82,6 +80,6 @@ $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -xml
 ```
 
 
-# Todo
+## Todo
 
 ?
