@@ -130,9 +130,9 @@ if(ENABLE_SANITIZERS)
         "vptr"
         "pointer-overflow"
         "builtin"
-#        "address"
-#        "leak"
-#        "pointer-compare"
+        "address"
+        "leak"
+        "pointer-compare"
     )
 
     set(SANITIZER_FLAGS "")
@@ -213,7 +213,6 @@ file(GLOB_RECURSE SRCS ${SRC_DIR}/*.cpp)  # depth 1
 
 
 set(LIBS_MAIN
-uv
 xerces-c
 PocoData
 PocoJSON

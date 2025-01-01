@@ -1,12 +1,11 @@
+
 #include "command_line_parser.h"
 #include "DnsResolver.h"
 #include "output.h"
 #include "xerces_manager.h"
 #include "input.h"
-#include "uv_loop.h"
 
 #include <iostream>
-
 
 int main(int argc, char *argv[])
 {
@@ -39,15 +38,7 @@ int main(int argc, char *argv[])
             printXmlHeader();
         }
 
-        UVLoop uvLoop;
-        DnsResolver::reverseDnsScannerAsync(ips, dns_server, uvLoop.get(), useJson, useXml);
-
-        if (useXml)
-        {
-            printXmlFooter();
-        }
-
-        uv_run(uvLoop.get(), UV_RUN_DEFAULT);
+        DnsResolver::reverseDnsScannerAsync(ips, dns_server, useJson, useXml);
 
         if (useXml)
         {

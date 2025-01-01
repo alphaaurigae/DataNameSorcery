@@ -6,27 +6,29 @@
 #include <memory>
 #include <sstream>
 #include <vector>
-#include <uv.h>
 #include <cstring>
 #include <cstdlib>
+#include <Poco/Net/DNS.h>
+#include <Poco/Net/SocketAddress.h>
+#include <Poco/Net/HostEntry.h>
+#include <Poco/Exception.h>
 
 #ifdef DEBUG
 #define DEBUG_OUTPUT_JSON_XML
 #endif
 
-// prevent unused parameter warnings
 inline void useJsonXml(bool useJson, bool useXml) {
     (void)useJson;
     (void)useXml;
 
-    #ifdef DEBUG_OUTPUT_JSON_XML
+#ifdef DEBUG_OUTPUT_JSON_XML
     if (useJson) {
         std::cout << "[DEBUG] JSON format is enabled." << std::endl;
     }
     if (useXml) {
         std::cout << "[DEBUG] XML format is enabled." << std::endl;
     }
-    #endif
+#endif
 }
 
 class DnsRequest {
@@ -48,73 +50,46 @@ public:
     static inline bool getUseJson() { return useJson; }
     static inline bool getUseXml() { return useXml; }
 
-    static void onDnsResolvedWrapper(uv_getaddrinfo_t *req, int status, struct addrinfo *res) {
-        std::ostream &output = std::cout;
-        onDnsResolved(req, status, res, output);
-        uv_freeaddrinfo(res);
+    static void onDnsResolvedWrapper(std::shared_ptr<DnsRequest> dnsRequest, const Poco::Net::HostEntry &entry, const std::string &error) {
+        onDnsResolved(dnsRequest, entry, error);
     }
 
-    static void onDnsResolved(uv_getaddrinfo_t *req, int status, struct addrinfo *res, std::ostream &output) {
-        auto dnsRequest = std::unique_ptr<DnsRequest>(reinterpret_cast<DnsRequest *>(req->data));
+static void onDnsResolved(std::shared_ptr<DnsRequest> dnsRequest, const Poco::Net::HostEntry &entry, const std::string &error) {
+    useJsonXml(useJson, useXml);
 
-        useJsonXml(useJson, useXml);
-        output << "";
-        if (res != nullptr && status == 0) {
-            std::vector<char> dynamicBuffer(NI_MAXHOST);
-
-            int result = getnameinfo(
-                res->ai_addr, res->ai_addrlen,
-                dynamicBuffer.data(), dynamicBuffer.size(),
-                nullptr, 0, 0);
-
-            if (result == 0) {
-                dynamicBuffer.resize(strlen(dynamicBuffer.data()));
-                outputResult(dnsRequest->ip, std::string(dynamicBuffer.data()), useJson, useXml);
-            } else {
-                outputResult(dnsRequest->ip, "Unable to resolve: " + std::string(gai_strerror(result)), useJson, useXml);
-            }
-        } else {
-            outputResult(dnsRequest->ip, "Unable to resolve", useJson, useXml);
-        }
+    if (!error.empty()) {
+        outputResult(dnsRequest->ip, "Unable to resolve", useJson, useXml);
+        return;
     }
 
-    static void asyncReverseDnsLookup(
-        const std::string &ip,
-        const std::string &dns_server,
-        uv_loop_t *const loop,
-        bool useJson,
-        bool useXml) {
-
-        useJsonXml(useJson, useXml);
-
-        auto request = std::make_unique<uv_getaddrinfo_t>();
-        auto dnsRequest = std::make_unique<DnsRequest>(ip, dns_server);
-        request->data = dnsRequest.get();
-
-        struct addrinfo hints{};
-        hints.ai_family = AF_UNSPEC;
-        hints.ai_socktype = SOCK_STREAM;
-
-        int result = uv_getaddrinfo(
-            loop,
-            request.get(),
-            DnsResolver::onDnsResolvedWrapper,
-            ip.c_str(),
-            nullptr,
-            &hints);
-
-        if (result != 0) {
-            std::cerr << ip << " -> Unable to initiate DNS resolution: " << uv_strerror(result) << std::endl;
-        } else {
-            dnsRequest.release();
-            request.release();
-        }
+    if (!entry.name().empty()) {
+        outputResult(dnsRequest->ip, entry.name(), useJson, useXml);
+    } else {
+        outputResult(dnsRequest->ip, "No hostname found", useJson, useXml);
     }
+}
 
+static void asyncReverseDnsLookup(
+    const std::string &ip,
+    const std::string &dns_server,
+    bool useJson,
+    bool useXml) {
+
+    useJsonXml(useJson, useXml);
+
+    auto dnsRequest = std::make_shared<DnsRequest>(ip, dns_server);
+
+    try {
+        Poco::Net::SocketAddress sa(ip, 0);
+        Poco::Net::HostEntry entry = Poco::Net::DNS::hostByAddress(sa.host());
+        onDnsResolvedWrapper(dnsRequest, entry, "");
+    } catch (const Poco::Exception &) {
+        onDnsResolvedWrapper(dnsRequest, Poco::Net::HostEntry(), "Unable to resolve");
+    }
+}
     static void reverseDnsScannerAsync(
         const std::string &ips,
         const std::string &dns_server,
-        uv_loop_t *const loop,
         bool useJson,
         bool useXml) {
 
@@ -123,7 +98,7 @@ public:
 
         while (std::getline(iss, ip)) {
             if (!ip.empty()) {
-                asyncReverseDnsLookup(ip, dns_server, loop, useJson, useXml);
+                asyncReverseDnsLookup(ip, dns_server, useJson, useXml);
             }
         }
     }

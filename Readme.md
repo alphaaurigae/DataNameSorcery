@@ -24,7 +24,7 @@
 libpoko-dev - https://github.com/pocoproject/poco
 libxerces-c-dev - https://github.com/apache/xerces-c
 nlohmann-json3-dev - https://github.com/nlohmann/json
-libuv1-dev - https://github.com/libuv/libuv
+
 
 ```
 
@@ -84,40 +84,4 @@ $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -xml
 
 # Todo
 
-```
-Address Sanitizer Output: Detected multiple direct and indirect memory leaks during unit tests and program execution.
-
- Reproduce: 
-"run ./build_cmake.sh (clang or g++) (clang++-18/g++-13)
-sanitizers uncommented (cmakelists)
-'
-    set(COMMON_SANITIZERS
-#"address"
-#"leak"
-#"pointer-compare"
-'
-
-see DnsResolver.h "class DnsResolver"
-
-==426656==ERROR: LeakSanitizer: detected memory leaks
-
-Direct leak of 320 byte(s) in 2 object(s) allocated from:
-    #0 0x5e956808ca71 in operator new(unsigned long) (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x10aa71) (BuildId: 23cf557bd0e8c57231f5fe8b394f160172f123ef)
-    #1 0x5e9568097d8a in DnsResolver::asyncReverseDnsLookup(...) (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x115d8a)
-    #2 0x5e9568091baa in DnsResolver::reverseDnsScannerAsync(...) (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x10fbaa)
-    #3 0x5e956808f0d0 in main (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x10d0d0)
-    #4 0x71513302a1c9 in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-    #5 0x71513302a28a in __libc_start_main csu/../csu/libc-start.c:360:3
-    #6 0x5e9567fb3604 in _start (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x31604)
-
-Indirect leak of 800 byte(s) in 5 object(s) allocated from:
-    #0 0x5e956808ca71 in operator new(unsigned long) (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x10aa71)
-    #1 0x5e9568097d8a in DnsResolver::asyncReverseDnsLookup(...) (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x115d8a)
-    #2 0x5e9568091baa in DnsResolver::reverseDnsScannerAsync(...) (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x10fbaa)
-    #3 0x5e956808f0d0 in main (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x10d0d0)
-    #4 0x71513302a1c9 in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
-    #5 0x71513302a28a in __libc_start_main csu/../csu/libc-start.c:360:3
-    #6 0x5e9567fb3604 in _start (/home/mmmm/Desktop/proj/git/DataNameSorcery/bin/datanamesorcery+0x31604)
-
-SUMMARY: AddressSanitizer: 1120 byte(s) leaked in 7 allocation(s).
-```
+?
