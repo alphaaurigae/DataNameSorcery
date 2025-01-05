@@ -11,15 +11,16 @@
 
 #include <iostream>
 
-#include <nlohmann/json.hpp>
-
+#include <Poco/JSON/Object.h>
+#include <Poco/JSON/Stringifier.h>
 
 inline void outputResult(const std::string& ip, const std::string& result, bool useJson, bool useXml) {
     if (useJson) {
-        nlohmann::json jsonResult;
-        jsonResult["ip"] = ip;
-        jsonResult["result"] = result;
-        std::cout << jsonResult.dump() << std::endl;
+        Poco::JSON::Object jsonResult;
+        jsonResult.set("ip", ip);
+        jsonResult.set("result", result);
+        Poco::JSON::Stringifier::stringify(jsonResult, std::cout);
+        std::cout << std::endl;
     } else if (useXml) {
         outputXmlToConsole(ip, result);
     } else {
