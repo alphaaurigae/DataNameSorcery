@@ -1,9 +1,11 @@
 #ifndef COMMAND_LINE_PARSER_H
 #define COMMAND_LINE_PARSER_H
 
+
 #include <stdexcept>
 #include <string>
 #include <string_view>
+
 
 enum class FlagType {
     HOST_DOMAIN,

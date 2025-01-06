@@ -1,8 +1,11 @@
 #ifndef XERCES_MANAGER_H
 #define XERCES_MANAGER_H
 
+
 #include <iostream>
+
 #include <xercesc/util/XMLString.hpp>
+
 
 class XercesManager {
 public:

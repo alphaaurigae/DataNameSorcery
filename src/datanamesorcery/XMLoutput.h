@@ -1,6 +1,7 @@
 #ifndef XMLOUTPUT_H
 #define XMLOUTPUT_H
 
+
 #include "XercesResourceManagement.h"
 
 #include <iostream>
@@ -8,7 +9,6 @@
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/util/XMLString.hpp>
 #include <xercesc/framework/StdOutFormatTarget.hpp>
-
 
 
 inline void printXmlHeader() {

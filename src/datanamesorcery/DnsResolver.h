@@ -1,6 +1,7 @@
 #ifndef DNS_RESOLVER_H
 #define DNS_RESOLVER_H
 
+
 #include <iostream>
 #include <string>
 #include <memory>
@@ -8,10 +9,12 @@
 #include <vector>
 #include <cstring>
 #include <cstdlib>
+
 #include <Poco/Net/DNS.h>
 #include <Poco/Net/SocketAddress.h>
 #include <Poco/Net/HostEntry.h>
 #include <Poco/Exception.h>
+
 
 #ifdef DEBUG
 #define DEBUG_OUTPUT_JSON_XML

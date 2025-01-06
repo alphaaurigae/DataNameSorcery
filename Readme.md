@@ -21,8 +21,9 @@
 
 ## Deps
 ```
-libpoco-dev - https://github.com/pocoproject/poco
-libxerces-c-dev - https://github.com/apache/xerces-c
+libuv1-dev | https://libuv.org | https://github.com/libuv/libuv
+libpoco-dev | https://pocoproject.org | https://github.com/pocoproject/poco
+libxerces-c-dev | https://xerces.apache.org/xerces-c | https://github.com/apache/xerces-c
 ```
 
 ## Run

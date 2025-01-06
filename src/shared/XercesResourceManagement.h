@@ -1,3 +1,4 @@
+// XMLoutput.h ; output.h
 #ifndef XERCESRESOURCEMANAGEMENT_H
 #define XERCESRESOURCEMANAGEMENT_H
 
@@ -57,3 +58,4 @@ private:
 };
 
 #endif
+
