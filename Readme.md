@@ -29,17 +29,17 @@ libxerces-c-dev | https://xerces.apache.org/xerces-c | https://github.com/apache
 
 ## Run
 ```
-$ bin/DataNameSorcery -hst <host_domain_file> -dns <dns_file> {-def | -json | -xml}
+$ bin/DataNameSorcery --host <host_file> --target <target_file> [--def | --json | --xml]
 
--hst <host_domain_file>` == a file with ipV4 or ipv6 to reverse-dns scan
+--host <host_domain_file>` == IPv4, IPv6, or URL \n
 
--dns <dns_file>` == a file with dns servers in ipV4, ipv6, or domain format
+--target <dns_file>` == IPv4, IPv6, or URL \n
 
--def == use default output
+--def == use default output
 
--json == use JSON output 
+--json == use JSON output 
 
--xml == use XML output**
+--xml == use XML output**
 ```
 
 
