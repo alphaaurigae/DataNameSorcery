@@ -83,4 +83,7 @@ $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -xml
 
 ## Todo
 
-?
+- cli11 just setup as BasED template, needs finetuning.
+- Check xml
+- check unittests
+- ?
