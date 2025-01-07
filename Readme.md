@@ -35,24 +35,25 @@ $ bin/DataNameSorcery --host <host_file> --target <target_file> [--def | --json 
 
 --target <dns_file>` == IPv4, IPv6, or URL \n
 
---def == use default output
+--def == default output
 
---json == use JSON output 
+--json == JSON output 
 
---xml == use XML output**
+--xml == XML output**
 ```
 
 
 ### Default console
 ```
-$ bin/datanamesorcery --host input_sample/host --target input_sample/target --json | sort | tr -d '\r' | sed 's/[[:space:]]*$//'
-{"ip":"1.1.1.1","result":"one.one.one.one"}
-{"ip":"2001:4860:4860::8888","result":"dns.google"}
-{"ip":"8.8.8.8","result":"dns.google"}
-{"ip":"Invalid input: 1.1.i.1","result":"Unable to resolve"}
-{"ip":"Invalid input: 200V:4860:4860::8888","result":"Unable to resolve"}
-{"ip":"Invalid input: 208.67.2...222","result":"Unable to resolve"}
-{"ip":"Invalid input: 8.&.8.8","result":"Unable to resolve"}
+$ bin/datanamesorcery --host input_sample/host --target input_sample/target --def | sort | tr -d '\r' | sed 's/[[:space:]]*$//'
+1.1.1.1 -> one.one.one.one
+2001:4860:4860::8888 -> dns.google
+8.8.8.8 -> dns.google
+Invalid input: 1.1.i.1 -> Unable to resolve
+Invalid input: 200V:4860:4860::8888 -> Unable to resolve
+Invalid input: 208.67.2...222 -> Unable to resolve
+Invalid input: 8.&.8.8 -> Unable to resolve
+
 ```
 
 
