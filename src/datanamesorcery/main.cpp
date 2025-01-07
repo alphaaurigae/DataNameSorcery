@@ -13,14 +13,19 @@
 #include <string>
 #include <stdexcept>
 
+
 void exec_man() {
-    std::cout << "Usage Examples:\n\n";
-    std::cout << "- Reverse DNS Scan (JSON output):\n";
-    std::cout << "  bin/scanner --host input_sample/hostfile --target input_sample/dnsfile.txt --def\n\n";
-    std::cout << "- Reverse DNS Scan (JSON output):\n";
-    std::cout << "  bin/scanner --host input_sample/hostfile --target input_sample/dnsfile.txt --json\n\n";
-    std::cout << "- Reverse DNS Scan (XML output):\n";
-    std::cout << "  bin/scanner --host input_sample/hostfile.txt --target input_sample/dnsfile.txt --xml\n\n";
+    std::cout << "bin/datanamesorcery [host file] [target file] [output format]\n\n";
+    std::cout << "Input:\n";
+    std::cout << "--host [file \\n] \n";
+    std::cout << "--target [file \\n] \n\n";
+    std::cout << "Output:\n";
+    std::cout << "--def ... default console\n";
+    std::cout << "--json ... json format\n";
+    std::cout << "--xml ... xml format\n\n";
+    std::cout << "bin/datanamesorcery --host input_sample/host --target input_sample/target --def\n";
+    std::cout << "bin/datanamesorcery --host input_sample/host --target input_sample/target --json\n";
+    std::cout << "bin/datanamesorcery --host input_sample/host --target input_sample/target --xml\n\n";
 }
 
 
@@ -52,9 +57,8 @@ void process_arguments(CLI::App& app, int argc, char* argv[]) {
 }
 
 
-
 int main(int argc, char* argv[]) {
-    CLI::App app{"blah"};
+    CLI::App app{"datanamesorcery reverse dns scanner"};
     process_arguments(app, argc, argv);
     return 0;
 }
