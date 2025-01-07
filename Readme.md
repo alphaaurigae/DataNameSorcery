@@ -43,23 +43,22 @@ $ bin/DataNameSorcery -hst <host_domain_file> -dns <dns_file> {-def | -json | -x
 ```
 
 
-### Default output
+### Default console
 ```
-$ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -def
-8.8.8.8 -> dns.google
-1.1.1.1 -> one.one.one.one
-2001:4860:4860::8888 -> dns.google
-208.67.222.222 -> dns.sse.cisco.com
-Invalid input: 8.&.8.8 -> Unable to resolve
-Invalid input: 1.1.i.1 -> Unable to resolve
-Invalid input: 200V:4860:4860::8888 -> Unable to resolve
-Invalid input: 208.67.2...222 -> Unable to resolve
+$ bin/datanamesorcery --host input_sample/host --target input_sample/target --json | sort | tr -d '\r' | sed 's/[[:space:]]*$//'
+{"ip":"1.1.1.1","result":"one.one.one.one"}
+{"ip":"2001:4860:4860::8888","result":"dns.google"}
+{"ip":"8.8.8.8","result":"dns.google"}
+{"ip":"Invalid input: 1.1.i.1","result":"Unable to resolve"}
+{"ip":"Invalid input: 200V:4860:4860::8888","result":"Unable to resolve"}
+{"ip":"Invalid input: 208.67.2...222","result":"Unable to resolve"}
+{"ip":"Invalid input: 8.&.8.8","result":"Unable to resolve"}
 ```
 
 
 ### Json
 ```
-$ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -json
+$ bin/DataNameSorcery -host input_sample/host --target input_sample/dns --json
 {"ip":"2001:4860:4860::8888","result":"dns.google"}
 {"ip":"1.1.1.1","result":"one.one.one.one"}
 {"ip":"208.67.222.222","result":"dns.opendns.com"}
@@ -73,11 +72,14 @@ $ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -json
 
 ### XML
 ```
-$ bin/DataNameSorcery -hst input_sample/hosts -dns input_sample/dns -xml
-<?xml version="1.0" encoding="UTF-8"?>
-<ReverseDnsResults>
-</ReverseDnsResults>
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>8.8.8.8</IP><ResultText>dns.google</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>1.1.1.1</IP><ResultText>one.one.one.one</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>208.67.222.222</IP><ResultText>dns.opendns.com</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>2001:4860:4860::8888</IP><ResultText>dns.google</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 200V:4860:4860::8888</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 8.&amp;.8.8</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 1.1.i.1</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 208.67.2...222</IP><ResultText>Unable to resolve</ResultText></Result></ReverseDnsResults>
+$ bin/datanamesorcery --host input_sample/host --target input_sample/target --xml | sort | tr -d '\r' | sed 's/[[:space:]]*$//'
+<dns><ip>1.1.1.1</ip><result>one.one.one.one</result></dns>
+<dns><ip>2001:4860:4860::8888</ip><result>dns.google</result></dns>
+<dns><ip>8.8.8.8</ip><result>dns.google</result></dns>
+<dns><ip>Invalid input: 1.1.i.1</ip><result>Unable to resolve</result></dns>
+<dns><ip>Invalid input: 200V:4860:4860::8888</ip><result>Unable to resolve</result></dns>
+<dns><ip>Invalid input: 208.67.2...222</ip><result>Unable to resolve</result></dns>
+<dns><ip>Invalid input: 8.&.8.8</ip><result>Unable to resolve</result></dns>
 ```
 
 
