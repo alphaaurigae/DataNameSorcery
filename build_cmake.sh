@@ -9,8 +9,8 @@ BUILD_DIR='build'
 BIN_DIR='bin'
 BIN_NAME='datanamesorcery'
 INPUT_DIR='input_sample'
-HOSTS_FILE='hosts' # Hosts to scan (Scan targets)
-DNS_FILE='dns' # DNS servers for testing (Not the scan targets)
+HOSTS_FILE='host' # Hosts to scan (Scan targets)
+DNS_FILE='target' # DNS servers for testing (Not the scan targets)
 
 
 
@@ -44,6 +44,6 @@ echo -e "${BOLD}${BRIGHT_WHITE}See unit test results and check build success ...
 echo ""
 echo -e "${BOLD}${BRIGHT_WHITE}E.g:${RESET}"
 echo ""
-echo -e "${BOLD}${BRIGHT_WHITE}${BIN_DIR}/${BIN_NAME} -h${RESET}\""
+echo -e "${BOLD}${BRIGHT_WHITE}${BIN_DIR}/${BIN_NAME} --man${RESET}\""
 echo ""
 echo -e "${BOLD}${BRIGHT_WHITE}See output above for output of ./test.sh and shunit2_run.sh${RESET}\""

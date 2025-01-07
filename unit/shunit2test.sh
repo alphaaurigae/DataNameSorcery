@@ -4,8 +4,8 @@
 BIN_DIR="bin"
 BIN_NAME="datanamesorcery"
 INPUT_DIR="input_sample"
-HOSTS_FILE="hosts"
-DNS_FILE="dns"
+HOSTS_FILE="host"
+DNS_FILE="target"
 
 BOLD='\033[1m'
 BRIGHT_WHITE='\033[1;37m'
@@ -38,7 +38,7 @@ debug_assert_equals() {
 
 # Test the exact output for the -hst format
 test_hst_output() {
-    output="$(bin/datanamesorcery -hst input_sample/hosts -dns input_sample/dns -def | sort | tr -d '\r' | sed 's/[[:space:]]*$//')"
+    output="$(bin/datanamesorcery --host input_sample/host --target input_sample/target --def | sort | tr -d '\r' | sed 's/[[:space:]]*$//')"
     echo "Output:"
     echo "$output"
 
@@ -58,7 +58,7 @@ Invalid input: 8.&.8.8 -> Unable to resolve"
 }
 
 test_json_output() {
-    output="$(bin/datanamesorcery -hst input_sample/hosts -dns input_sample/dns -json | sort | tr -d '\r' | sed 's/[[:space:]]*$//')"
+    output="$(bin/datanamesorcery --host input_sample/host --target input_sample/target --json | sort | tr -d '\r' | sed 's/[[:space:]]*$//')"
     echo "Output:"
     echo "$output"
 
@@ -78,25 +78,28 @@ test_json_output() {
   debug_assert_equals "JSON Output Test Failed" "$expected" "$output"
 }
 
-#test_xml_output() {
-#    # Fetch raw XML output from the program
-#    raw_output="$(bin/datanamesorcery -hst input_sample/hosts -dns input_sample/dns -xml | tr -d '\r' | sed 's/[[:space:]]*$//')"
-#
-#    echo "Raw Output:"
-#    echo "$raw_output"
-#
-#    # Expected output
-#    expected_output='<?xml version="1.0" encoding="UTF-8"?>
-#<ReverseDnsResults>
-#</ReverseDnsResults>
-#<?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>2001:4860:4860::8888</IP><ResultText>dns.google</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>1.1.1.1</IP><ResultText>one.one.one.one</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>8.8.8.8</IP><ResultText>dns.google</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 200V:4860:4860::8888</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 8.&amp;.8.8</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 1.1.i.1</IP><ResultText>Unable to resolve</ResultText></Result><?xml version="1.0" encoding="UTF-8" standalone="no" ?><Result><IP>Invalid input: 208.67.2...222</IP><ResultText>Unable to resolve</ResultText></Result></ReverseDnsResults>'
-#
-#
-#    echo "Expected Output:"
-#    echo "$expected_output"
-#
-#    # Assert equality
-#    assertEquals "XML Test Failed" "$expected_output" "$raw_output"
-#}
+test_xml_output() {
+    # Fetch raw XML output from the program
+    raw_output="$(bin/datanamesorcery --host input_sample/host --target input_sample/target --xml | sort | tr -d '\r' | sed 's/[[:space:]]*$//')"
+
+    echo "Raw Output:"
+    echo "$raw_output"
+
+    # Expected output
+    expected_output='<dns><ip>1.1.1.1</ip><result>one.one.one.one</result></dns>
+<dns><ip>2001:4860:4860::8888</ip><result>dns.google</result></dns>
+<dns><ip>8.8.8.8</ip><result>dns.google</result></dns>
+<dns><ip>Invalid input: 1.1.i.1</ip><result>Unable to resolve</result></dns>
+<dns><ip>Invalid input: 200V:4860:4860::8888</ip><result>Unable to resolve</result></dns>
+<dns><ip>Invalid input: 208.67.2...222</ip><result>Unable to resolve</result></dns>
+<dns><ip>Invalid input: 8.&.8.8</ip><result>Unable to resolve</result></dns>'
+
+
+    echo "Expected Output:"
+    echo "$expected_output"
+
+    # Assert equality
+    assertEquals "XML Test Failed" "$expected_output" "$raw_output"
+}
 
 echo "$(tput bold)XML OUTPUT TEST SKIPPED - FIX UNITTEST$(tput sgr0)"

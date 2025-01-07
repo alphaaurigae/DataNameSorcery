@@ -21,6 +21,7 @@
 
 ## Deps
 ```
+cli11-dev | https://github.com/CLIUtils/CLI11
 libuv1-dev | https://libuv.org | https://github.com/libuv/libuv
 libpoco-dev | https://pocoproject.org | https://github.com/pocoproject/poco
 libxerces-c-dev | https://xerces.apache.org/xerces-c | https://github.com/apache/xerces-c

@@ -1,55 +1,60 @@
-
-#include "command_line_parser.h"
+#include "menu_generic.h"
 #include "DnsResolver.h"
 #include "output.h"
 #include "xerces_manager.h"
 #include "input.h"
+#include "argument_parser.h"
+#include "main_man.h"
+#include "cout_man.h"
+
+#include <CLI/CLI.hpp>
 
 #include <iostream>
+#include <string>
+#include <stdexcept>
 
-int main(int argc, char *argv[])
-{
-    try
-    {
-        std::string hostDomainFile, dnsFile;
-        bool useJson = false;
-        bool useXml = false;
+void exec_man() {
+    std::cout << "Usage Examples:\n\n";
+    std::cout << "- Reverse DNS Scan (JSON output):\n";
+    std::cout << "  bin/scanner --host input_sample/hostfile --target input_sample/dnsfile.txt --def\n\n";
+    std::cout << "- Reverse DNS Scan (JSON output):\n";
+    std::cout << "  bin/scanner --host input_sample/hostfile --target input_sample/dnsfile.txt --json\n\n";
+    std::cout << "- Reverse DNS Scan (XML output):\n";
+    std::cout << "  bin/scanner --host input_sample/hostfile.txt --target input_sample/dnsfile.txt --xml\n\n";
+}
 
-        parseCommandLineArguments(argc, argv, hostDomainFile, dnsFile, useJson, useXml);
 
-        DnsResolver::setUseJson(useJson);
-        DnsResolver::setUseXml(useXml);
+void process_arguments(CLI::App& app, int argc, char* argv[]) {
+    AppSettings settings;
+    settings.setup_app(app);
 
-        XercesManager xercesManager;
+    parse_arguments(app, argc, argv);
 
-        FileReader ipFileReader(hostDomainFile);
-        std::string ips = ipFileReader.readFileLines();
+    cout_man(settings.show_man);
 
-        FileReader dnsFileReader(dnsFile);
-        std::string dns_server = dnsFileReader.readFileLines();
+    std::string hostDomainFile, dnsFile;
 
-        if (dns_server.empty())
-        {
-            throw std::runtime_error("Error: DNS file is empty");
-        }
+    DnsResolver::setUseJson(settings.useJson);
+    DnsResolver::setUseXml(settings.useXml);
 
-        if (useXml)
-        {
-            printXmlHeader();
-        }
+    FileReader ipFileReader(settings.hostDomainFile);
+    std::string ips = ipFileReader.readFileLines();
 
-        DnsResolver::reverseDnsScannerAsync(ips, dns_server, useJson, useXml);
+    FileReader dnsFileReader(settings.dnsFile);
+    std::string dns_server = dnsFileReader.readFileLines();
 
-        if (useXml)
-        {
-            printXmlFooter();
-        }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Oops!: " << e.what() << std::endl;
-        return 1;
+    if (dns_server.empty()) {
+        throw std::runtime_error("Error: DNS file is empty");
     }
 
+    initializeOutput(settings.useXml, settings.useJson, settings.useDefault);
+    DnsResolver::reverseDnsScannerAsync(ips, dns_server, settings.useJson, settings.useXml);
+}
+
+
+
+int main(int argc, char* argv[]) {
+    CLI::App app{"blah"};
+    process_arguments(app, argc, argv);
     return 0;
 }

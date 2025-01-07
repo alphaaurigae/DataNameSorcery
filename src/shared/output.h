@@ -1,9 +1,9 @@
-#ifndef OUTPUTHANDLER_H
-#define OUTPUTHANDLER_H
-
+#ifndef OUTPUT_H
+#define OUTPUT_H
 
 #include "XMLoutput.h"
 #include "XercesResourceManagement.h"
+#include "xerces_manager.h"
 
 #include <iostream>
 
@@ -16,6 +16,15 @@
 #include <Poco/JSON/Stringifier.h>
 
 
+void initializeOutput(bool useXml, bool useJson, bool useDefault) {
+    if (useXml) {
+        XercesManager xercesManager;
+    } else if (useJson) {
+// foo
+    } else if (useDefault) {
+// bar
+    }
+}
 inline void outputResult(const std::string& ip, const std::string& result, bool useJson, bool useXml) {
     if (useJson) {
         Poco::JSON::Object jsonResult;
@@ -24,10 +33,11 @@ inline void outputResult(const std::string& ip, const std::string& result, bool 
         Poco::JSON::Stringifier::stringify(jsonResult, std::cout);
         std::cout << std::endl;
     } else if (useXml) {
+        printXmlHeader();
         outputXmlToConsole(ip, result);
+        printXmlFooter();
     } else {
         std::cout << ip << " -> " << result << std::endl;
     }
 }
-
 #endif
