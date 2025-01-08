@@ -52,7 +52,6 @@ void process_arguments(CLI::App& app, int argc, char* argv[]) {
         throw std::runtime_error("Error: DNS file is empty");
     }
 
-    initializeOutput(settings.useXml, settings.useJson, settings.useDefault);
     DnsResolver::reverseDnsScannerAsync(ips, dns_server, settings.useJson, settings.useXml);
 }
 

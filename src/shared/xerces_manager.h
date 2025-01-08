@@ -3,9 +3,10 @@
 
 
 #include <iostream>
-
 #include <xercesc/util/XMLString.hpp>
 
+
+namespace xerces_management {
 
 class XercesManager {
 public:
@@ -26,9 +27,8 @@ private:
         char* data;
     };
 
-    // Ensure member variables are declared and initialized in the correct order
-    xercesc_3_2::DOMImplementation* impl;  // First declared, so initialize first
-    xercesc_3_2::DOMDocument* doc;        // Second declared, so initialize second
+    xercesc::DOMImplementation* impl;
+    xercesc::DOMDocument* doc;
 };
 
 inline XercesManager::XercesManager() : impl(nullptr), doc(nullptr) {
@@ -65,6 +65,8 @@ inline XercesManager::XercesStringGuard::~XercesStringGuard() {
 
 inline char* XercesManager::XercesStringGuard::get() const {
     return data;
+}
+
 }
 
 #endif

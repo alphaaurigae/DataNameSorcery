@@ -1,4 +1,3 @@
-// XMLoutput.h ; output.h
 #ifndef XERCESRESOURCEMANAGEMENT_H
 #define XERCESRESOURCEMANAGEMENT_H
 
@@ -10,52 +9,57 @@
 #include <xercesc/framework/StdOutFormatTarget.hpp>
 
 
-using namespace xercesc;
+namespace xerces_utils {
 
-class XMLStringRAII {
+class XMLString {
 public:
-    explicit XMLStringRAII(const char* str) : data(XMLString::transcode(str)) {}
-    ~XMLStringRAII() { XMLString::release(&data); }
+    explicit XMLString(const char* str) : data(xercesc::XMLString::transcode(str)) {}
+    ~XMLString() { xercesc::XMLString::release(&data); }
     const XMLCh* get() const { return data; }
 
 private:
     XMLCh* data;
 };
 
-class XercesResourceRAII {
+}
+
+namespace xerces_management {
+
+class XercesResource {
 public:
-    explicit XercesResourceRAII(DOMImplementation* impl) 
+    explicit XercesResource(xercesc::DOMImplementation* impl) 
         : doc(nullptr), rootElem(nullptr), serializer(nullptr), 
-          output(nullptr), formatTarget(nullptr), impl(impl) {}  // Corrected order
+          output(nullptr), formatTarget(nullptr), impl(impl) {}
 
     inline void init() {
         doc = impl->createDocument();
-        rootElem = doc->createElement(XMLString::transcode("Result"));
+        rootElem = doc->createElement(xercesc::XMLString::transcode("Result"));
         doc->appendChild(rootElem);
-        
-        serializer = ((DOMImplementationLS*)impl)->createLSSerializer();
-        output = ((DOMImplementationLS*)impl)->createLSOutput();
-        formatTarget = new StdOutFormatTarget();
-        
+
+        serializer = ((xercesc::DOMImplementationLS*)impl)->createLSSerializer();
+        output = ((xercesc::DOMImplementationLS*)impl)->createLSOutput();
+        formatTarget = new xercesc::StdOutFormatTarget();
+
         output->setByteStream(formatTarget);
     }
 
-    ~XercesResourceRAII() {
+    ~XercesResource() {
         if (formatTarget) delete formatTarget;
         if (output) output->release();
         if (serializer) serializer->release();
         if (doc) doc->release();
     }
 
-    DOMDocument* doc;
-    DOMElement* rootElem;
-    DOMLSSerializer* serializer;
-    DOMLSOutput* output;
-    XMLFormatTarget* formatTarget;
+    xercesc::DOMDocument* doc;
+    xercesc::DOMElement* rootElem;
+    xercesc::DOMLSSerializer* serializer;
+    xercesc::DOMLSOutput* output;
+    xercesc::XMLFormatTarget* formatTarget;
 
 private:
-    DOMImplementation* impl;
+    xercesc::DOMImplementation* impl;
 };
 
-#endif
+}
 
+#endif
