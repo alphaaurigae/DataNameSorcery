@@ -1,8 +1,9 @@
-#ifndef XERCES_MANAGER_H
-#define XERCES_MANAGER_H
+#ifndef XERCESC_INIT_H
+#define XERCESC_INIT_H
 
 
 #include <iostream>
+
 #include <xercesc/util/XMLString.hpp>
 
 

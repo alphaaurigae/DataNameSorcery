@@ -1,7 +1,7 @@
 #ifndef COUT_MAN_H
 #define COUT_MAN_H
 
-#include "main_man.h"
+#include "man_main.h"
 #include <iostream>
 
 

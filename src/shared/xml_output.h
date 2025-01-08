@@ -2,7 +2,7 @@
 #define XMLOUTPUT_H
 
 
-#include "XercesResourceManagement.h"
+#include "xercesc_handler.h"
 
 #include <iostream>
 

@@ -1,11 +1,11 @@
 #include "menu_generic.h"
-#include "DnsResolver.h"
-#include "output.h"
-#include "xerces_manager.h"
-#include "input.h"
+#include "dns_resolver.h"
+#include "output_handler.h"
+#include "xercesc_init.h"
+#include "input_handler.h"
 #include "argument_parser.h"
-#include "main_man.h"
-#include "cout_man.h"
+#include "man_main.h"
+#include "man_cout.h"
 
 #include <CLI/CLI.hpp>
 

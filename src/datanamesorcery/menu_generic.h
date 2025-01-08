@@ -1,8 +1,11 @@
 #ifndef MENU_GENERIC_H
 #define MENU_GENERIC_H
 
+
 #include <string>
+
 #include <CLI/CLI.hpp>
+
 
 struct AppSettings {
     std::string hostDomainFile;

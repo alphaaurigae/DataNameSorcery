@@ -1,5 +1,5 @@
-#ifndef XERCESRESOURCEMANAGEMENT_H
-#define XERCESRESOURCEMANAGEMENT_H
+#ifndef XERCESC_HANDLER_H
+#define XERCESC_HANDLER_H
 
 
 #include <stdexcept>
