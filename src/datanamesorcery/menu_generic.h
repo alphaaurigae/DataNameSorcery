@@ -13,11 +13,10 @@ struct AppSettings {
     bool show_man = false;
 
 
-    // replaced by CLI::Option* on calls directly
-    // CLI::Option* man_opt = nullptr;
-    // CLI::Option* def_opt = nullptr; 
-    // CLI::Option* json_opt = nullptr; 
-    // CLI::Option* xml_opt = nullptr; 
+    CLI::Option* man_opt = nullptr;
+    CLI::Option* def_opt = nullptr; 
+    CLI::Option* json_opt = nullptr; 
+    CLI::Option* xml_opt = nullptr; 
 
     void setup_app(CLI::App& app) {
         auto host_opt = app.add_option("--host", hostDomainFile, "HOST file");
@@ -25,9 +24,9 @@ struct AppSettings {
         host_opt->needs(target_opt);
         target_opt->needs(host_opt);
 
-        CLI::Option* def_opt = app.add_flag("--def", useDefault, "Enable default output");
-        CLI::Option* json_opt = app.add_flag("--json", useJson, "Enable JSON output");
-        CLI::Option* xml_opt = app.add_flag("--xml", useXml, "Enable XML output");
+        def_opt = app.add_flag("--def", useDefault, "Enable default output");
+        json_opt = app.add_flag("--json", useJson, "Enable JSON output");
+        xml_opt = app.add_flag("--xml", useXml, "Enable XML output");
 
         def_opt->excludes(json_opt);
         def_opt->excludes(xml_opt);
@@ -36,7 +35,8 @@ struct AppSettings {
         xml_opt->excludes(def_opt);
         xml_opt->excludes(json_opt);
 
-        CLI::Option* man_opt = app.add_flag("--man", show_man, "Display detailed manual");
+        man_opt = app.add_flag("--man", show_man, "Display detailed manual");
+        
         man_opt->excludes(def_opt);
         man_opt->excludes(json_opt);
         man_opt->excludes(xml_opt);
