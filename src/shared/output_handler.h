@@ -2,8 +2,8 @@
 #define OUTPUT_H
 
 
-#include "xml_output.h"
-#include "json_output.h"
+#include "output_xml.h"
+#include "output_json.h"
 
 #include <iostream>
 
