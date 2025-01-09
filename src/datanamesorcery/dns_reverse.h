@@ -1,5 +1,5 @@
-#ifndef DNS_RESOLVER_H
-#define DNS_RESOLVER_H
+#ifndef DNS_REVERSE_H
+#define DNS_REVERSE_H
 
 
 #include <iostream>

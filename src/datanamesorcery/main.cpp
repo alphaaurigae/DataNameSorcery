@@ -1,5 +1,5 @@
 #include "menu_generic.h"
-#include "dns_resolver.h"
+#include "dns_reverse.h"
 #include "output_handler.h"
 #include "xercesc_init.h"
 #include "input_handler.h"
