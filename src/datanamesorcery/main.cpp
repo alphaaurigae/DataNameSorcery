@@ -30,15 +30,22 @@ void exec_man() {
 
 
 void process_arguments(CLI::App& app, int argc, char* argv[]) {
+
+    // menu_generic.h
     AppSettings settings;
     settings.setup_app(app);
 
-    parse_arguments(app, argc, argv);
 
-    cout_man(settings.show_man);
+    // [ executable specific cli11 argument options here if multi bin]
 
+
+    parse_arguments(app, argc, argv);  // argument_parser.h
+    cout_man(settings.show_man);  // man_cout.h"
+
+
+    // input handling
+    // [ argument validation here e.g argument_validation.h ]
     std::string hostDomainFile, dnsFile;
-
     DnsResolver::setUseJson(settings.useJson);
     DnsResolver::setUseXml(settings.useXml);
 

@@ -7,20 +7,25 @@
 #include <CLI/CLI.hpp>
 
 
+// handle void process_arguments main.cpp
 struct AppSettings {
     std::string hostDomainFile;
     std::string dnsFile;
+
     bool useDefault = false;
     bool useJson = false;
     bool useXml = false;
+
     bool show_man = false;
 
 
+    // init pre
     CLI::Option* man_opt = nullptr;
     CLI::Option* def_opt = nullptr; 
     CLI::Option* json_opt = nullptr; 
     CLI::Option* xml_opt = nullptr; 
 
+    // general arguments e.g multi bin
     void setup_app(CLI::App& app) {
         auto host_opt = app.add_option("--host", hostDomainFile, "HOST file");
         auto target_opt = app.add_option("--target", dnsFile, "TARGET file");
